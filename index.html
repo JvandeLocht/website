@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jan van de Locht - Resume</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --text-light: #7f8c8d;
+        --bg-light: #ecf0f1;
+        --white: #ffffff;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        line-height: 1.6;
+        color: var(--primary-color);
+        background-color: var(--bg-light);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header Section */
+      header {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color) 0%,
+          var(--secondary-color) 100%
+        );
+        color: var(--white);
+        padding: 60px 0;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 70%
+        );
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate(-30px, 30px) rotate(180deg);
+        }
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .profile-pic {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 5px solid var(--white);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        object-fit: cover;
+        background: var(--text-light);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 72px;
+        color: var(--white);
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      .header-info h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      .header-info p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        opacity: 0.9;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+      }
+
+      .contact-info {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        animation: fadeInUp 0.8s ease-out 0.6s both;
+      }
+
+      .contact-info span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .contact-info a {
+        color: var(--white);
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .contact-info a:hover {
+        opacity: 0.8;
+      }
+
+      /* Download Button */
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--white);
+        color: var(--primary-color);
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow);
+        animation: fadeInUp 0.8s ease-out 0.8s both;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Main Content */
+      main {
+        padding: 60px 0;
+      }
+
+      .section {
+        background: var(--white);
+        padding: 40px;
+        margin-bottom: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        animation: fadeIn 0.6s ease-out;
+      }
+
+      .section h2 {
+        color: var(--primary-color);
+        font-size: 2em;
+        margin-bottom: 30px;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .section h2::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 30px;
+        background: var(--secondary-color);
+        border-radius: 3px;
+      }
+
+      /* Experience Timeline */
+      .timeline {
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--bg-light);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+        animation: slideInLeft 0.6s ease-out;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -35px;
+        top: 5px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--secondary-color);
+        border: 3px solid var(--white);
+        box-shadow: 0 0 0 3px var(--bg-light);
+      }
+
+      .timeline-date {
+        color: var(--secondary-color);
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .timeline-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .timeline-company {
+        color: var(--text-light);
+        margin-bottom: 10px;
+      }
+
+      /* Skills Grid */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .skill-category h3 {
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+      }
+
+      .skill-item {
+        background: var(--bg-light);
+        padding: 10px 20px;
+        border-radius: 25px;
+        display: inline-block;
+        margin: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .skill-item:hover {
+        background: var(--secondary-color);
+        color: var(--white);
+        transform: translateY(-2px);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .header-info h1 {
+          font-size: 2em;
+        }
+
+        .contact-info {
+          justify-content: center;
+        }
+
+        .timeline {
+          padding-left: 20px;
+        }
+
+        .timeline-item::before {
+          left: -25px;
+        }
+      }
+
+      /* Interests */
+      .interests-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .interest-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 25px;
+        background: var(--bg-light);
+        border-radius: 30px;
+        transition: all 0.3s ease;
+      }
+
+      .interest-item:hover {
+        background: var(--secondary-color);
+        color: var(--white);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+      }
+
+      /* Icons */
+      .icon {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="profile-pic">JL</div>
+          <div class="header-info">
+            <h1>Jan van de Locht</h1>
+            <p>Ingenieur Maschinenbau</p>
+            <div class="contact-info">
+              <span>
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+                <a href="https://github.com/JvandeLocht" target="_blank"
+                  >github.com/JvandeLocht</a
+                >
+              </span>
+              <span>
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path
+                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+                <a href="mailto:jan@vandelocht.uk">jan@vandelocht.uk</a>
+              </span>
+              <span>
+                <svg class="icon" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                  />
+                </svg>
+                Oberhausen, Deutschland
+              </span>
+            </div>
+            <a
+              href="cv.pdf"
+              class="download-btn"
+              download="Jan_van_de_Locht_CV.pdf"
+            >
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+              </svg>
+              CV als PDF herunterladen
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <!-- Berufserfahrung -->
+        <section class="section">
+          <h2>Beruflicher Werdegang</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">Seit August 2023</div>
+              <div class="timeline-title">Arbeitsvorbereitung</div>
+              <div class="timeline-company">
+                MAN Energy Solutions SE, Oberhausen
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">Seit Januar 2021</div>
+              <div class="timeline-title">Vorrichtungskonstrukteur</div>
+              <div class="timeline-company">
+                MAN Energy Solutions SE, Oberhausen
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">Februar 2013 - Dezember 2020</div>
+              <div class="timeline-title">Industriemechaniker</div>
+              <div class="timeline-company">
+                MAN Energy Solutions SE, Oberhausen
+              </div>
+              <div>Fachrichtung: Maschinen- und Anlagenbau</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Ausbildung -->
+        <section class="section">
+          <h2>Ausbildung</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">Seit Januar 2020</div>
+              <div class="timeline-title">Bachelor of Engineering</div>
+              <div class="timeline-company">Hamburger Fern-Hochschule</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">September 2009 - Februar 2013</div>
+              <div class="timeline-title">
+                Ausbildung zum Industriemechaniker
+              </div>
+              <div class="timeline-company">
+                MAN Energy Solutions SE, Oberhausen
+              </div>
+              <div>Fachrichtung: Maschinen und Anlagenbau</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Weiterbildung -->
+        <section class="section">
+          <h2>Weiterbildung</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">2023</div>
+              <div class="timeline-title">Gastvorlesung Harvard - CS50</div>
+              <div class="timeline-company">
+                Artificial Intelligence with Python
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2022</div>
+              <div class="timeline-title">Gastvorlesung Universität Wien</div>
+              <ul style="margin-top: 10px; padding-left: 20px">
+                <li>Einführung in die Vektor- und Tensorrechnung 1</li>
+                <li>Einführung in die Physik 1</li>
+                <li>Einführung in die Physik 2</li>
+              </ul>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">August 2015 - Juni 2019</div>
+              <div class="timeline-title">Staatlich geprüfter Techniker</div>
+              <div class="timeline-company">
+                Technische Berufliche Schule 1, Bochum
+              </div>
+              <div>Fachrichtung: Maschinenbautechnik</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Kenntnisse -->
+        <section class="section">
+          <h2>Kenntnisse</h2>
+          <div class="skills-grid">
+            <div class="skill-category">
+              <h3>EDV-Kenntnisse</h3>
+              <div>
+                <span class="skill-item">Siemens NX</span>
+                <span class="skill-item">ANSYS</span>
+                <span class="skill-item">SAP</span>
+                <span class="skill-item">ECTR</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h3>Programmiersprachen</h3>
+              <div>
+                <span class="skill-item">Python</span>
+                <span class="skill-item">VBA</span>
+                <span class="skill-item">Nix</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h3>Sprachkenntnisse</h3>
+              <div>
+                <span class="skill-item">Deutsch (Muttersprache)</span>
+                <span class="skill-item">Englisch</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interessen -->
+        <section class="section">
+          <h2>Interessen</h2>
+          <div class="interests-list">
+            <div class="interest-item">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                />
+              </svg>
+              Sport
+            </div>
+            <div class="interest-item">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"
+                />
+              </svg>
+              Systemadministration
+            </div>
+            <div class="interest-item">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18-.21 0-.41-.06-.57-.18l-7.9-4.44A.991.991 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18.21 0 .41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 9.46v6.77l6 3.38v-6.77L5 9.46zm14 0l-6 3.38v6.77l6-3.38V9.46z"
+                />
+              </svg>
+              Kubernetes
+            </div>
+            <div class="interest-item">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M20 3h-1V1h-2v2H7V1H5v2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM8 6c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm8-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"
+                />
+              </svg>
+              Linux
+            </div>
+            <div class="interest-item">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4s1.79-4 4-4h.71C7.37 7.69 9.48 6 12 6c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"
+                />
+              </svg>
+              Networking
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
