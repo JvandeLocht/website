@@ -2,7 +2,6 @@ FROM nginx:alpine
 
 # Copy website files
 COPY index.html /usr/share/nginx/html/
-COPY cv.pdf /usr/share/nginx/html/
 
 # Create proper nginx config
 RUN echo 'server { \
@@ -15,8 +14,4 @@ RUN echo 'server { \
         try_files $uri $uri/ /index.html; \
     } \
     \
-    location ~* \.(pdf)$ { \
-        expires 30d; \
-        add_header Cache-Control "public, immutable"; \
-    } \
 }' > /etc/nginx/conf.d/default.conf
