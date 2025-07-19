@@ -4,11 +4,19 @@ FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/
 COPY cv.pdf /usr/share/nginx/html/
 
-# Optional: Add custom nginx config for better caching
+# Create proper nginx config
 RUN echo 'server { \
     listen 80; \
+    server_name _; \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    \
+    location / { \
+        try_files $uri $uri/ /index.html; \
+    } \
+    \
     location ~* \.(pdf)$ { \
         expires 30d; \
         add_header Cache-Control "public, immutable"; \
     } \
-}' > /etc/nginx/conf.d/cache.conf
+}' > /etc/nginx/conf.d/default.conf
