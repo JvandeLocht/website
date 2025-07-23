@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 const CalculatorPage = () => {
@@ -9,11 +9,32 @@ const CalculatorPage = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleCalculate = async (e) => {
+  const validateInputs = useCallback((operation, num1, num2) => {
+    if (!num1 || isNaN(parseFloat(num1))) {
+      return 'Bitte geben Sie eine gültige erste Zahl ein';
+    }
+    
+    if (operation !== 'sqrt' && (!num2 || isNaN(parseFloat(num2)))) {
+      return 'Bitte geben Sie eine gültige zweite Zahl ein';
+    }
+    
+    if (operation === 'divide' && parseFloat(num2) === 0) {
+      return 'Division durch Null ist nicht erlaubt';
+    }
+    
+    if (operation === 'sqrt' && parseFloat(num1) < 0) {
+      return 'Quadratwurzel aus negativen Zahlen ist nicht erlaubt';
+    }
+    
+    return null;
+  }, []);
+
+  const handleCalculate = useCallback(async (e) => {
     e.preventDefault();
     
-    if (!num1 || !num2) {
-      setError('Bitte geben Sie beide Zahlen ein');
+    const validationError = validateInputs(operation, num1, num2);
+    if (validationError) {
+      setError(validationError);
       setResult(null);
       return;
     }
@@ -23,26 +44,30 @@ const CalculatorPage = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('/api/calculate', {
+      const payload = {
         operation,
         num1: parseFloat(num1),
-        num2: parseFloat(num2)
-      });
-      
+        ...(operation !== 'sqrt' && { num2: parseFloat(num2) })
+      };
+
+      const response = await axios.post('/api/calculate', payload);
       setResult(response.data.result);
     } catch (err) {
-      setError(err.response?.data?.message || 'Ein Fehler ist aufgetreten');
+      const errorMessage = err.response?.data?.message || 'Ein Fehler ist aufgetreten';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
-  };
+  }, [operation, num1, num2, validateInputs]);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setNum1('');
     setNum2('');
     setResult(null);
     setError(null);
-  };
+  }, []);
+
+  const requiresSecondNumber = useMemo(() => operation !== 'sqrt', [operation]);
 
   return (
     <div className="calculator-container">
@@ -77,20 +102,19 @@ const CalculatorPage = () => {
           />
         </div>
 
-        {operation !== 'sqrt' && (
-          <div className="form-group">
-            <label htmlFor="num2">Zweite Zahl:</label>
-            <input
-              type="number"
-              id="num2"
-              value={num2}
-              onChange={(e) => setNum2(e.target.value)}
-              step="any"
-              required={operation !== 'sqrt'}
-            />
-          </div>
-        )}
-
+         {requiresSecondNumber && (
+           <div className="form-group">
+             <label htmlFor="num2">Zweite Zahl:</label>
+             <input
+               type="number"
+               id="num2"
+               value={num2}
+               onChange={(e) => setNum2(e.target.value)}
+               step="any"
+               required={requiresSecondNumber}
+             />
+           </div>
+         )}
         <div style={{ display: 'flex', gap: '10px' }}>
           <button 
             type="submit" 

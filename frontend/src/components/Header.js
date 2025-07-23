@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = () => {
+const Header = React.memo(() => {
   return (
     <header className="header">
       <div className="container">
@@ -14,6 +14,8 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;

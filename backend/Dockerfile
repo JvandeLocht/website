@@ -6,6 +6,9 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y maven && \
     rm -rf /var/lib/apt/lists/*
 
+# Create non-root user
+RUN groupadd -r spring && useradd -r -g spring spring
+
 # Copy pom.xml first for better caching
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
@@ -15,12 +18,14 @@ COPY src ./src
 
 # Build the application
 RUN mvn clean package -DskipTests && \
-    echo "=== Target directory contents ===" && \
-    ls -la target/ && \
-    echo "=== Looking for jar files ===" && \
-    find target/ -name "*.jar" -type f && \
     cp target/calculator-backend-1.0.0.jar app.jar
+
+# Change ownership to spring user
+RUN chown -R spring:spring /app
+
+USER spring
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+# Optimize JVM for containers
+CMD ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "app.jar"]

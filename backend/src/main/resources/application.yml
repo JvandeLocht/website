@@ -29,6 +29,7 @@ management:
 logging:
   level:
     uk.vandelocht.website: INFO
-    org.springframework.security: DEBUG
+    org.springframework.security: WARN
+    org.springframework.cache: INFO
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

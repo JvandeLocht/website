@@ -1,28 +1,28 @@
 # AGENTS.md - Development Guidelines
 
 ## Build/Test/Lint Commands
-- **Build**: `docker build -t website .` (builds Docker image with nginx)
-- **Deploy**: GitHub Actions automatically builds and pushes to `ghcr.io/jvandelocht/website` on push to main
-- **Local serve**: `docker run -p 8080:80 website` or serve `index.html` with any static server
-- **No tests**: This is a static HTML resume site with no test framework
+- **Full build**: `docker-compose up --build` (builds all services)
+- **Frontend**: `cd frontend && npm start` (dev server), `npm test` (single test run), `npm run build` (production)
+- **Backend**: `cd backend && mvn spring-boot:run` (dev server), `mvn test` (all tests), `mvn test -Dtest=ClassName` (single test)
+- **Single service**: `docker-compose up frontend` or `docker-compose up backend`
+- **Deploy**: GitHub Actions builds and pushes to `ghcr.io/jvandelocht/website` on main branch changes
 
 ## Code Style Guidelines
-- **HTML**: Use semantic HTML5, proper indentation (2 spaces), lowercase attributes
-- **CSS**: Use CSS custom properties (`:root` variables), BEM-like naming, mobile-first responsive design
-- **Formatting**: 2-space indentation, kebab-case for CSS classes, camelCase for CSS custom properties
-- **Colors**: Use CSS custom properties defined in `:root` (--primary-color, --secondary-color, etc.)
-- **Animations**: Prefer CSS animations over JavaScript, use `ease-out` timing functions
-- **Icons**: Inline SVG with `class="icon"` and `viewBox="0 0 24 24"`
-- **German content**: All user-facing text should be in German (this is a German resume)
+### Java (Spring Boot Backend)
+- **Package structure**: `uk.vandelocht.website.{controller,service,dto,exception,config}`
+- **Naming**: PascalCase classes, camelCase methods/fields, UPPER_SNAKE_CASE constants
+- **Annotations**: Use `@Service`, `@RestController`, `@RequestMapping`, `@Valid` for validation
+- **Error handling**: Custom exceptions extending `RuntimeException`, global exception handlers
+- **Validation**: Use Bean Validation annotations (`@NotNull`, `@Valid`) in DTOs
 
-## File Structure
-- `index.html` - Main resume page with embedded CSS
-- `cv.pdf` - PDF version of resume
-- `Dockerfile` - nginx-alpine container setup
-- `.github/workflows/build.yaml` - CI/CD pipeline
+### React Frontend
+- **Components**: Functional components with hooks, PascalCase filenames
+- **Imports**: React first, then libraries, then local imports (components, utils)
+- **Styling**: CSS classes with kebab-case, prefer CSS modules or styled-components
+- **State**: Use `useState`/`useEffect` hooks, avoid class components
+- **API calls**: Use axios with proper error handling and loading states
 
-## Docker & Deployment
-- Uses nginx:alpine base image
-- Serves static files from `/usr/share/nginx/html/`
-- PDF caching configured for 30 days
-- Auto-deploys to GitHub Container Registry on main branch changes
+### General
+- **Indentation**: 4 spaces for Java, 2 spaces for JS/HTML/CSS
+- **Line length**: 120 characters max
+- **Imports**: Group and sort imports, remove unused imports

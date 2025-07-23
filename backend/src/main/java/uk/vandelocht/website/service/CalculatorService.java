@@ -12,19 +12,7 @@ public class CalculatorService {
         Double num2 = request.getNum2();
         String operation = request.getOperation();
 
-        // Input validation
-        if (num1 == null) {
-            throw new CalculationException("First number cannot be null");
-        }
-
-        // Check for invalid numbers
-        if (!isValidNumber(num1)) {
-            throw new CalculationException("First number is invalid");
-        }
-
-        if (num2 != null && !isValidNumber(num2)) {
-            throw new CalculationException("Second number is invalid");
-        }
+        validateInputs(num1, num2, operation);
 
         return switch (operation) {
             case "add" -> {
@@ -67,6 +55,20 @@ public class CalculatorService {
     private void validateSecondNumber(Double num2) {
         if (num2 == null) {
             throw new CalculationException("Second number is required for this operation");
+        }
+    }
+
+    private void validateInputs(Double num1, Double num2, String operation) {
+        if (num1 == null) {
+            throw new CalculationException("First number cannot be null");
+        }
+
+        if (!isValidNumber(num1)) {
+            throw new CalculationException("First number is invalid");
+        }
+
+        if (num2 != null && !isValidNumber(num2)) {
+            throw new CalculationException("Second number is invalid");
         }
     }
 
