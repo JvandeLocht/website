@@ -1,12 +1,16 @@
-name: Build and Push Resume Site
+name: Build and Push Website
 
 on:
   push:
     branches: [main]
     paths:
-      - "index.html"
+      - "resume.html"
       - "cv.pdf"
       - "Dockerfile"
+      - "frontend/**"
+      - "backend/**"
+      - "nginx/**"
+      - "flake.nix"
 
 env:
   REGISTRY: ghcr.io
