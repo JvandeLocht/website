@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: ghcr.io/jvandelocht/website-frontend:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    image: ghcr.io/jvandelocht/website-backend:latest
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+    restart: unless-stopped
+
+  nginx:
+    image: ghcr.io/jvandelocht/website-nginx:latest
+    ports:
+      - "8000:80"
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+networks:
+  default:
+    name: website-prod

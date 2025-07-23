@@ -278,6 +278,32 @@ FROM nginx:alpine
 # Exposes port 80
 ```
 
+## Deployment Strategies
+
+### Development Environment
+- **File**: `docker-compose.yml`
+- **Purpose**: Local development with hot reloading
+- **Containers**: 3 separate containers for easy debugging
+- **Volumes**: Source code mounted for live updates
+
+### Production Environment
+- **File**: `docker-compose.prod.yml`
+- **Purpose**: Production deployment with built images
+- **Images**: Pre-built images from GitHub Container Registry
+- **Features**: Optimized for performance and security
+
+### CI/CD Pipeline
+The GitHub Actions workflow (`.github/workflows/build.yaml`) builds three separate images:
+- `ghcr.io/jvandelocht/website-frontend:latest`
+- `ghcr.io/jvandelocht/website-backend:latest`
+- `ghcr.io/jvandelocht/website-nginx:latest`
+
+This allows for:
+- **Independent scaling** of each service
+- **Separate deployment** of components
+- **Better resource utilization**
+- **Easier maintenance and updates**
+
 ## Environment Variables and Configuration
 
 ### Frontend Environment
