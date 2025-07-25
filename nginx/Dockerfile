@@ -19,7 +19,6 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Copy resume files
 COPY resume.html /usr/share/nginx/html/index.html
-COPY cv.pdf /usr/share/nginx/html/cv.pdf
 
 # Copy built React app
 COPY --from=frontend-builder /app/build /usr/share/nginx/html/calc

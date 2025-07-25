@@ -18,4 +18,3 @@ services:
       - backend
     volumes:
       - ./resume.html:/usr/share/nginx/html/index.html:ro
-      - ./cv.pdf:/usr/share/nginx/html/cv.pdf:ro
