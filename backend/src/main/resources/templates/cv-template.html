@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="de">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jan van de Locht - Resume</title>
+    <style>
+        /* PDF-optimized styles based on original CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --text-light: #7f8c8d;
+            --bg-light: #ecf0f1;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            color: var(--primary-color);
+            background-color: white;
+            font-size: 10pt;
+        }
+
+        .container {
+            max-width: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Compact Header */
+        header {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 0;
+            margin-bottom: 8px;
+        }
+
+        .header-content {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid white;
+            background: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .header-info {
+            flex: 1;
+        }
+
+        .header-info h1 {
+            font-size: 18pt;
+            margin-bottom: 3px;
+        }
+
+        .header-info p {
+            font-size: 11pt;
+            margin-bottom: 6px;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 12px;
+            font-size: 8pt;
+            flex-wrap: wrap;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Main Content */
+        main {
+            padding: 0;
+        }
+
+        /* Two-column layout for sections */
+        .sections-container {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .column {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            padding-right: 10px;
+        }
+
+        .column:last-child {
+            padding-right: 0;
+            padding-left: 10px;
+        }
+
+        .section {
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 8px;
+            padding: 10px;
+            page-break-inside: avoid;
+        }
+
+        .section h2 {
+            font-size: 11pt;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            position: relative;
+            padding-left: 8px;
+        }
+
+        .section h2::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 15px;
+            background: var(--secondary-color);
+        }
+
+        /* Timeline */
+        .timeline {
+            padding-left: 15px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 21px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -20px;
+            top: 2px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+        }
+
+        .timeline-date {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 7pt;
+            margin-bottom: 2px;
+        }
+
+        .timeline-title {
+            font-size: 9pt;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .timeline-company {
+            color: var(--text-light);
+            font-size: 8pt;
+            margin-bottom: 3px;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: block;
+        }
+
+        .skill-category {
+            margin-bottom: 8px;
+        }
+
+        .skill-category h3 {
+            color: var(--secondary-color);
+            font-size: 9pt;
+            margin-bottom: 4px;
+        }
+
+        .skill-item {
+            background: var(--bg-light);
+            color: var(--primary-color);
+            font-size: 7pt;
+            padding: 2px 8px;
+            margin: 1px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        /* Interests */
+        .interests-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .interest-item {
+            background: var(--bg-light);
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 7pt;
+            flex: none;
+        }
+
+        .full-width-section {
+            clear: both;
+            width: 100%;
+        }
+
+        /* Page break control */
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="profile-pic">JL</div>
+                <div class="header-info">
+                    <h1 th:text="${name}">Jan van de Locht</h1>
+                    <p th:text="${title}">Ingenieur Maschinenbau</p>
+                    <div class="contact-info">
+                        <span th:text="${github}">github.com/JvandeLocht</span>
+                        <span th:text="${email}">jan@vandelocht.uk</span>
+                        <span th:text="${location}">Oberhausen, Deutschland</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="sections-container">
+                <!-- Left Column -->
+                <div class="column">
+                    <!-- Berufserfahrung -->
+                    <section class="section">
+                        <h2>Beruflicher Werdegang</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">Seit August 2023</div>
+                                <div class="timeline-title">Arbeitsvorbereitung</div>
+                                <div class="timeline-company">MAN Energy Solutions SE</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Seit Januar 2021</div>
+                                <div class="timeline-title">Vorrichtungskonstrukteur</div>
+                                <div class="timeline-company">MAN Energy Solutions SE</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Februar 2013 - Dezember 2020</div>
+                                <div class="timeline-title">Industriemechaniker</div>
+                                <div class="timeline-company">MAN Energy Solutions SE</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Ausbildung -->
+                    <section class="section">
+                        <h2>Ausbildung</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">Seit Januar 2020</div>
+                                <div class="timeline-title">Bachelor of Engineering</div>
+                                <div class="timeline-company">Hamburger Fern-Hochschule</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">September 2009 - Februar 2013</div>
+                                <div class="timeline-title">Ausbildung Industriemechaniker</div>
+                                <div class="timeline-company">MAN Energy Solutions SE</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="column">
+                    <!-- Weiterbildung -->
+                    <section class="section">
+                        <h2>Weiterbildung</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2023</div>
+                                <div class="timeline-title">Harvard CS50 - AI with Python</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2022</div>
+                                <div class="timeline-title">Universität Wien</div>
+                                <div class="timeline-company">Physik &amp; Tensorrechnung</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">August 2015 - Juni 2019</div>
+                                <div class="timeline-title">Staatlich geprüfter Techniker</div>
+                                <div class="timeline-company">TBS 1, Bochum</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Kenntnisse -->
+                    <section class="section">
+                        <h2>Kenntnisse</h2>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h3>EDV-Kenntnisse</h3>
+                                <div>
+                                    <span class="skill-item">Siemens NX</span>
+                                    <span class="skill-item">ANSYS</span>
+                                    <span class="skill-item">SAP</span>
+                                    <span class="skill-item">ECTR</span>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h3>Programmierung</h3>
+                                <div>
+                                    <span class="skill-item">Python</span>
+                                    <span class="skill-item">VBA</span>
+                                    <span class="skill-item">Nix</span>
+                                </div>
+                            </div>
+                            <div class="skill-category">
+                                <h3>Sprachen</h3>
+                                <div>
+                                    <span class="skill-item">Deutsch (Muttersprache)</span>
+                                    <span class="skill-item">Englisch</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Interessen - Full Width -->
+            <section class="section full-width-section">
+                <h2>Interessen</h2>
+                <div class="interests-list">
+                    <div class="interest-item">Sport</div>
+                    <div class="interest-item">Systemadministration</div>
+                    <div class="interest-item">Kubernetes</div>
+                    <div class="interest-item">Linux</div>
+                    <div class="interest-item">Networking</div>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

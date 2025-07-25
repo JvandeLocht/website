@@ -600,9 +600,9 @@
             </div>
             <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
               <a
-                href="#"
+                href="/api/cv/pdf"
                 class="download-btn"
-                onclick="generatePDF(); return false;"
+                download="Jan_van_de_Locht_CV.pdf"
               >
                 <svg class="icon" viewBox="0 0 24 24">
                   <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
@@ -765,18 +765,5 @@
       </div>
     </main>
 
-    <script>
-      function generatePDF() {
-        // Set document title for PDF filename
-        const originalTitle = document.title;
-        document.title = 'Jan_van_de_Locht_CV';
-        
-        // Trigger print dialog
-        window.print();
-        
-        // Restore original title
-        document.title = originalTitle;
-      }
-    </script>
   </body>
 </html>

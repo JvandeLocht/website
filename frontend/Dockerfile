@@ -1,5 +1,5 @@
 # Development Dockerfile for React app
-FROM node:20-alpine
+FROM docker.io/node:20-alpine
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
