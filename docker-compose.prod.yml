@@ -1,16 +1,6 @@
 version: '3.8'
 
 services:
-  frontend:
-    image: ghcr.io/jvandelocht/website-frontend:latest
-    ports:
-      - "3001:3000"
-    environment:
-      - NODE_ENV=production
-    depends_on:
-      - backend
-    restart: unless-stopped
-
   backend:
     image: ghcr.io/jvandelocht/website-backend:latest
     ports:
@@ -25,7 +15,6 @@ services:
     ports:
       - "8000:80"
     depends_on:
-      - frontend
       - backend
     restart: unless-stopped
 
