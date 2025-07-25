@@ -12,18 +12,12 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --text-light: #7f8c8d;
-            --bg-light: #ecf0f1;
-            --white: #ffffff;
-        }
+        /* Direct color values for Flying Saucer compatibility */
 
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
-            color: var(--primary-color);
+            color: #2c3e50;
             background-color: white;
             font-size: 10pt;
         }
@@ -36,7 +30,7 @@
 
         /* Compact Header */
         header {
-            background: var(--primary-color);
+            background: #2c3e50;
             color: white;
             padding: 12px 0;
             margin-bottom: 8px;
@@ -53,13 +47,16 @@
             height: 60px;
             border-radius: 50%;
             border: 3px solid white;
-            background: var(--text-light);
+            background: #7f8c8d;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
             color: white;
             flex-shrink: 0;
+            text-align: center;
+            line-height: 1;
+            font-weight: bold;
         }
 
         .header-info {
@@ -95,39 +92,47 @@
             padding: 0;
         }
 
-        /* Two-column layout for sections */
+        /* Two-column layout for sections - using float for better PDF compatibility */
         .sections-container {
-            display: table;
             width: 100%;
-            table-layout: fixed;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        
+        .sections-container::after {
+            content: "";
+            display: table;
+            clear: both;
         }
 
         .column {
-            display: table-cell;
-            width: 50%;
-            vertical-align: top;
-            padding-right: 10px;
+            width: 48%;
+            float: left;
+            margin-right: 4%;
         }
 
         .column:last-child {
-            padding-right: 0;
-            padding-left: 10px;
+            margin-right: 0;
         }
 
         .section {
             background: white;
             border: 1px solid #ddd;
-            margin-bottom: 8px;
-            padding: 10px;
+            margin-bottom: 12px;
+            padding: 12px;
             page-break-inside: avoid;
+            border-radius: 4px;
+            box-sizing: border-box;
+            position: relative;
         }
 
         .section h2 {
-            font-size: 11pt;
-            margin-bottom: 8px;
-            color: var(--primary-color);
+            font-size: 12pt;
+            margin-bottom: 10px;
+            color: #2c3e50;
             position: relative;
-            padding-left: 8px;
+            padding-left: 10px;
+            font-weight: bold;
         }
 
         .section h2::before {
@@ -136,59 +141,65 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 3px;
-            height: 15px;
-            background: var(--secondary-color);
+            width: 4px;
+            height: 18px;
+            background: #3498db;
+            border-radius: 2px;
         }
 
-        /* Timeline */
+        /* Timeline - simplified for PDF */
         .timeline {
-            padding-left: 15px;
+            position: relative;
+            padding-left: 20px;
         }
 
         .timeline::before {
             content: "";
             position: absolute;
-            left: 21px;
+            left: 8px;
             top: 0;
             bottom: 0;
-            width: 1px;
-            background: var(--primary-color);
+            width: 2px;
+            background: #2c3e50;
         }
 
         .timeline-item {
             position: relative;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            padding-left: 5px;
         }
 
         .timeline-item::before {
             content: "";
             position: absolute;
-            left: -20px;
-            top: 2px;
-            width: 6px;
-            height: 6px;
+            left: -33px;
+            top: 3px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: var(--secondary-color);
+            background: #3498db;
+            border: 2px solid white;
         }
 
         .timeline-date {
-            color: var(--secondary-color);
+            color: #3498db;
             font-weight: bold;
-            font-size: 7pt;
-            margin-bottom: 2px;
+            font-size: 8pt;
+            margin-bottom: 3px;
         }
 
         .timeline-title {
-            font-size: 9pt;
+            font-size: 10pt;
             font-weight: bold;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
+            color: #2c3e50;
         }
 
         .timeline-company {
-            color: var(--text-light);
-            font-size: 8pt;
-            margin-bottom: 3px;
+            color: #7f8c8d;
+            font-size: 9pt;
+            margin-bottom: 4px;
+            font-style: italic;
         }
 
         /* Skills */
@@ -201,14 +212,15 @@
         }
 
         .skill-category h3 {
-            color: var(--secondary-color);
-            font-size: 9pt;
-            margin-bottom: 4px;
+            color: #3498db;
+            font-size: 10pt;
+            margin-bottom: 6px;
+            font-weight: bold;
         }
 
         .skill-item {
-            background: var(--bg-light);
-            color: var(--primary-color);
+            background: #ecf0f1;
+            color: #2c3e50;
             font-size: 7pt;
             padding: 2px 8px;
             margin: 1px;
@@ -219,24 +231,30 @@
 
         /* Interests */
         .interests-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
+            display: block;
+            margin: 0;
+            padding: 0;
+            overflow: visible;
         }
 
         .interest-item {
-            background: var(--bg-light);
-            color: var(--primary-color);
-            padding: 4px 8px;
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 6px 10px;
             border: 1px solid #ddd;
-            border-radius: 3px;
-            font-size: 7pt;
-            flex: none;
+            border-radius: 4px;
+            font-size: 8pt;
+            display: inline-block;
+            margin: 2px 4px 2px 0;
+            vertical-align: top;
         }
 
         .full-width-section {
             clear: both;
             width: 100%;
+            float: none;
+            margin-top: 8px;
+            box-sizing: border-box;
         }
 
         /* Page break control */
