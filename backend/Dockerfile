@@ -2,21 +2,30 @@ FROM docker.io/openjdk:21-jdk-slim
 
 WORKDIR /app
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven && \
-    rm -rf /var/lib/apt/lists/*
+# Install Maven, wget, xz-utils, and ca-certificates for Typst installation
+RUN apt-get update && apt-get install -y \
+    maven \
+    wget \
+    xz-utils \
+    ca-certificates \
+    && update-ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Typst CLI
+RUN wget -qO typst.tar.xz https://github.com/typst/typst/releases/download/v0.14.0/typst-x86_64-unknown-linux-musl.tar.xz && \
+    tar xf typst.tar.xz --strip-components=1 -C /usr/local/bin typst-x86_64-unknown-linux-musl/typst && \
+    rm typst.tar.xz && \
+    chmod +x /usr/local/bin/typst && \
+    typst --version
 
 # Create non-root user
 RUN groupadd -r spring && useradd -r -g spring spring
 
-# Copy pom.xml first for better caching
+# Copy source code and pom.xml
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# Copy source code
 COPY src ./src
 
-# Build the application
+# Build the application (will download dependencies during build)
 RUN mvn clean package -DskipTests && \
     cp target/calculator-backend-1.0.0.jar app.jar
 

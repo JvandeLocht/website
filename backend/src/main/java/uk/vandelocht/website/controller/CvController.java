@@ -1,6 +1,5 @@
 package uk.vandelocht.website.controller;
 
-import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,8 +38,8 @@ public class CvController {
             }
             
             return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-            
-        } catch (DocumentException | IOException e) {
+
+        } catch (IOException | InterruptedException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(("Error generating PDF: " + e.getMessage()).getBytes());
         }
