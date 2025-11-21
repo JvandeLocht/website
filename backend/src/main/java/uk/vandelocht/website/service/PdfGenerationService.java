@@ -29,6 +29,7 @@ public class PdfGenerationService {
         context.setVariable("title", "Ingenieur Maschinenbau");
         context.setVariable("email", "jan@vandelocht.uk");
         context.setVariable("github", "github.com/JvandeLocht");
+        context.setVariable("codeberg", "codeberg.org/JvandeLocht");
         context.setVariable("location", "Oberhausen, Deutschland");
         context.setVariable("generatedDate", LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
 
