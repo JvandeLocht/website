@@ -39,8 +39,8 @@
 
 #align(right + top)[
 #text(size: 13pt)[*Jan van de Locht*]\
-Mobil 0151 65 600 448 | jan\@vandelocht.uk \
-Teutstraße 33 | 46117 Oberhausen #h(0.15em) \
+jan\@vandelocht.uk \
+46117 Oberhausen #h(0.15em) \
 github.com/JvandeLocht\
 codeberg.org/JvandeLocht
 ]
